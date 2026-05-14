@@ -20,7 +20,7 @@ pool:
 
 variables:
   - name: storageAccountName
-    value: REPLACE_WITH_STORAGE_ACCOUNT_NAME
+    value: stmanagedpoolsdemowe
 
 steps:
   - script: |

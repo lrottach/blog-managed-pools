@@ -47,3 +47,28 @@ output "user_assigned_identity_principal_id" {
   description = "Principal (object) ID of the pool's user-assigned identity. Used by step 2 for storage role assignments."
   value       = azurerm_user_assigned_identity.pool.principal_id
 }
+
+output "storage_account_name" {
+  description = "Name of the storage account. Plug this into the diagnostic pipeline."
+  value       = azurerm_storage_account.main.name
+}
+
+output "storage_account_id" {
+  description = "Resource ID of the storage account."
+  value       = azurerm_storage_account.main.id
+}
+
+output "storage_vnet_id" {
+  description = "ID of the dedicated storage VNet."
+  value       = azurerm_virtual_network.storage.id
+}
+
+output "private_endpoint_id" {
+  description = "ID of the private endpoint to the blob sub-resource."
+  value       = azurerm_private_endpoint.storage_blob.id
+}
+
+output "private_dns_zone_id" {
+  description = "ID of the private DNS zone for blob endpoints."
+  value       = azurerm_private_dns_zone.blob.id
+}
