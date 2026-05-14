@@ -1,14 +1,14 @@
 location = "westeurope"
 
-resource_group_name         = "rg-managed-pools-blog"
-user_assigned_identity_name = "id-managed-pools-blog"
-vnet_name                   = "vnet-managed-pools-blog"
+resource_group_name         = "rg-managed-pools-demo-we"
+user_assigned_identity_name = "id-managed-pools-demo-we"
+vnet_name                   = "vnet-managed-pools-demo-we"
 subnet_pool_name            = "DevOpsInfrastructure"
-nat_gateway_name            = "ng-managed-pools-blog"
-public_ip_name              = "pip-managed-pools-blog"
-dev_center_name             = "dc-managed-pools-blog"
-dev_center_project_name     = "dcp-managed-pools-blog"
-pool_name                   = "pool-managed-pools-blog"
+nat_gateway_name            = "ng-managed-pools-demo-we"
+public_ip_name              = "pip-managed-pools-demo-we"
+dev_center_name             = "dc-managed-pools-demo-we"
+dev_center_project_name     = "dcp-managed-pools-demo-we"
+pool_name                   = "pool-managed-pools-demo-we"
 
 # Replace with the URL of your Azure DevOps organization. The organization must
 # be in the same Microsoft Entra tenant as the subscription you deploy into.
