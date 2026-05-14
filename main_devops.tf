@@ -2,14 +2,18 @@
 # infrastructure on behalf of the user. Looked up by its well-known
 # Application ID so the example works in any tenant.
 data "azuread_service_principal" "devopsinfrastructure" {
-  client_id = "0dbb74ee-c69f-4a55-a3e1-7b6ebd13b3a8"
+  client_id = "31687f79-5e43-4c1e-8c63-d9f4bff5cf8b"
 }
 
-# Grants the DevOpsInfrastructure service the network permissions it
-# needs to attach pool agent VMs to the delegated subnet.
+# Grants the DevOpsInfrastructure service the two roles it needs on the
+# virtual network: Reader (to discover the VNet/subnet) and Network
+# Contributor (to attach pool agent VMs to the delegated subnet). Both
+# are required per the Managed DevOps Pools networking docs.
 resource "azurerm_role_assignment" "devopsinfrastructure_network" {
+  for_each = toset(["Reader", "Network Contributor"])
+
   scope                = azurerm_virtual_network.main.id
-  role_definition_name = "Network Contributor"
+  role_definition_name = each.value
   principal_id         = data.azuread_service_principal.devopsinfrastructure.object_id
 }
 
@@ -47,9 +51,12 @@ resource "azurerm_managed_devops_pool" "pool" {
     subnet_id = azurerm_subnet.pool.id
 
     image {
-      well_known_image_name = "ubuntu-22.04"
+      well_known_image_name = "ubuntu-24.04-g2"
     }
   }
 
-  depends_on = [azurerm_role_assignment.devopsinfrastructure_network]
+  depends_on = [
+    azurerm_role_assignment.devopsinfrastructure_network,
+    azurerm_subnet_nat_gateway_association.pool,
+  ]
 }

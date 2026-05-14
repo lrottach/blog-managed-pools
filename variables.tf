@@ -27,6 +27,16 @@ variable "subnet_pool_name" {
   type        = string
 }
 
+variable "nat_gateway_name" {
+  description = "Name of the NAT gateway providing outbound internet access to the pool subnet."
+  type        = string
+}
+
+variable "public_ip_name" {
+  description = "Name of the public IP attached to the NAT gateway."
+  type        = string
+}
+
 variable "dev_center_name" {
   description = "Name of the DevCenter that hosts the pool's parent project."
   type        = string
