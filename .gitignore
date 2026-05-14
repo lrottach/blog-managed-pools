@@ -15,6 +15,9 @@ crash.*.log
 # to change depending on the environment.
 *.tfvars
 *.tfvars.json
+# The example values for this blog post contain no secrets and are checked in
+# so readers can see all resource names in one place.
+!terraform.tfvars
 
 # Ignore override files as they are usually used to override resources locally and so
 # are not checked in
