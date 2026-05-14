@@ -1,0 +1,68 @@
+# Diagnostic pipeline for the Managed DevOps Pool.
+#
+# Step 1 prints basic host and network information about the agent VM so
+# you can confirm it is running inside the customer VNet, has a private
+# IPv4 address from the delegated subnet, and reaches the internet through
+# the NAT gateway.
+#
+# Step 2 resolves the blob storage FQDN. Before step 2 of the example is
+# deployed this returns a public Azure IP; once the storage account exists
+# and is wired up through a private endpoint + private DNS zone, the same
+# FQDN should resolve to a 10.x address inside the VNet.
+#
+# Run on demand: this pipeline does not auto-trigger on commits.
+
+trigger: none
+pr: none
+
+pool:
+  name: pool-managed-pools-demo-we
+
+variables:
+  - name: storageAccountName
+    value: REPLACE_WITH_STORAGE_ACCOUNT_NAME
+
+steps:
+  - script: |
+      set -euo pipefail
+
+      echo "===== Host ====="
+      echo "Hostname : $(hostname)"
+      echo "FQDN     : $(hostname -f)"
+      echo "User     : $(whoami)"
+      echo "Uptime   : $(uptime -p)"
+      echo "OS       : $(. /etc/os-release && echo "$PRETTY_NAME")"
+
+      echo
+      echo "===== Private addresses ====="
+      ip -4 -o addr show scope global | awk '{ printf "  %-10s %s\n", $2, $4 }'
+
+      echo
+      echo "===== Default route ====="
+      ip route show default
+
+      echo
+      echo "===== Outbound public IP (via NAT gateway) ====="
+      curl --silent --max-time 5 https://api.ipify.org \
+        || echo "(could not reach api.ipify.org — NAT gateway egress may be missing)"
+      echo
+    displayName: Host and network info
+
+  - script: |
+      set -euo pipefail
+
+      FQDN="$(storageAccountName).blob.core.windows.net"
+      echo "Resolving $FQDN"
+      echo
+
+      echo "----- dig +short -----"
+      dig +short "$FQDN" || true
+      echo
+
+      echo "----- nslookup -----"
+      nslookup "$FQDN" || true
+      echo
+
+      echo "----- getent hosts -----"
+      getent hosts "$FQDN" || true
+    displayName: DNS resolution for storage account
