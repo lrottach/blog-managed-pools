@@ -12,8 +12,8 @@ pool_name                   = "pool-managed-pools-demo-we"
 
 # Replace with the URL of your Azure DevOps organization. The organization must
 # be in the same Microsoft Entra tenant as the subscription you deploy into.
-azure_devops_organization_url = "https://dev.azure.com/example-org"
+azure_devops_organization_url = "https://dev.azure.com/dark-contoso-lab"
 
 # Empty list grants the pool access to every project in the organization.
 # Add project names to restrict it (e.g. ["my-project"]).
-azure_devops_projects = []
+azure_devops_projects = ["Azure Landing Zone"]

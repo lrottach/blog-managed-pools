@@ -47,7 +47,7 @@ resource "azurerm_managed_devops_pool" "pool" {
   stateless_agent {}
 
   virtual_machine_scale_set_fabric {
-    sku_name  = "Standard_D2ads_v5"
+    sku_name  = "Standard_B2as_v2"
     subnet_id = azurerm_subnet.pool.id
 
     image {
