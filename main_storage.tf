@@ -104,3 +104,13 @@ resource "azurerm_virtual_network_peering" "storage_to_pool" {
   virtual_network_name      = azurerm_virtual_network.storage.name
   remote_virtual_network_id = azurerm_virtual_network.main.id
 }
+
+# Grants the pool's user-assigned identity blob data-plane access on the
+# storage account. With this in place a pipeline running on the pool can
+# authenticate as the UAMI (`az login --identity`) and list / read /
+# write blobs over the private endpoint — no shared keys, no SAS.
+resource "azurerm_role_assignment" "pool_identity_storage_blob" {
+  scope                = azurerm_storage_account.main.id
+  role_definition_name = "Storage Blob Data Contributor"
+  principal_id         = azurerm_user_assigned_identity.pool.principal_id
+}

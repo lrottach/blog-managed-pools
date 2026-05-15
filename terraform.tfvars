@@ -21,8 +21,8 @@ peering_storage_to_pool_name       = "peer-storage-to-pool"
 
 # Replace with the URL of your Azure DevOps organization. The organization must
 # be in the same Microsoft Entra tenant as the subscription you deploy into.
-azure_devops_organization_url = "https://dev.azure.com/dark-contoso-lab"
+azure_devops_organization_url = "https://dev.azure.com/your-organization"
 
 # Empty list grants the pool access to every project in the organization.
 # Add project names to restrict it (e.g. ["my-project"]).
-azure_devops_projects = ["Azure Landing Zone"]
+azure_devops_projects = []
